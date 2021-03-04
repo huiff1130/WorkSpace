@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浅克隆</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+        <p>克隆数据：{{cloneObj}}</p>
+    </div>
+</body>
+<script src="../lib/vue.js"></script>
+<script type="text/javascript">
+    let me;
+     new Vue({
+        el: '#app',
+        data: {
+            msg: '浅度克隆：对于对象和数组，拷贝的是地址，他们指向同一个空间；一个对象在空间加了东西，另一个对象也会受影响。函数的克隆会在内存单独开辟一块空间，会互不影响。可应用于不包含对象（狭义的）和数组的对象之间的拷贝',
+            cloneObj: {}
+        },
+        methods: {
+            deepClone(target) {
+                if (typeof target == 'object' && target != null) {
+                    const cloneTarget = Array.isArray(target) ? [] : {}
+                    for (let prop in target) {
+                        if (target.hasOwnProperty(prop)) {
+                            cloneTarget[prop] = target[prop]
+                        }
+                    }
+                    return cloneTarget
+                } else {
+                    return target
+                }
+            }
+        },
+        created() {
+            me = this
+        },
+        mounted() {
+            let obj = {
+                name: '张三',
+                age: 12,
+                sex: 'male',
+                abc:function(){}
+            };
+            this.cloneObj = this.deepClone(obj)
+        },
+        watch: {
+            cloneObj: {
+                handler(newVal, oldVal) {
+                    this.cloneObj = newVal
+                },
+                deep: true
+            }
+        }
+    })
+</script>
+
+</html>

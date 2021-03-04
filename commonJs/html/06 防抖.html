@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="height:2000px">
+    <div>
+        <button id="btn" onclick="abc()">122122</button>
+    </div>
+</body>
+<script type="text/javascript">
+    function debounce(fn, delay) {
+        let timer = null
+        return function () {
+            let context = this
+            let args = arguments
+            clearTimeout(timer)
+            timer = setTimeout(function () {
+                fn.apply(context, args)
+            }, delay)
+        }
+    }
+    let flag = 0
+
+    function foo() {
+        flag++
+        console.log('---------' + flag);
+    }
+
+    function abc() {
+        debounce(foo, 2000)
+    }
+    var btn = document.getElementById('btn');
+    btn.onclick = debounce(foo, 2000)
+</script>
+
+</html>
